@@ -45,7 +45,7 @@ trait B3FormatPropagation[Header, Request]
     new mutable.Builder[Header, immutable.Seq[Header]] {
       private val b = mutable.ArrayBuffer.newBuilder[Header]
 
-      override def addOne(elem: Header): this.type = {
+      override def +=(elem: Header): this.type = {
         b += elem
         this
       }
@@ -53,4 +53,5 @@ trait B3FormatPropagation[Header, Request]
       override def clear(): Unit                   = b.clear()
       override def result(): immutable.Seq[Header] = b.result().toList
     }
+
 }
