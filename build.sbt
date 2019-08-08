@@ -1,19 +1,13 @@
 import Dependencies._
 
 name in ThisBuild := "opencensus-scala"
-organization in ThisBuild := "com.github.sebruck"
+organization in ThisBuild := "org.latestbit"
 scalaVersion in ThisBuild := "2.13.0"
 scalafmtOnCompile in ThisBuild := true
 
 crossScalaVersions in ThisBuild := Seq("2.13.0", "2.12.9")
 
-releasePublishArtifactsAction in ThisBuild := PgpKeys.publishSigned.value
-publishTo in ThisBuild := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging
-)
+publishTo in ThisBuild := Some(GCSPublisher.forBucket("wunder-artifactory", AccessRights.InheritBucket))
 
 lazy val root = (project in file("."))
   .settings(
