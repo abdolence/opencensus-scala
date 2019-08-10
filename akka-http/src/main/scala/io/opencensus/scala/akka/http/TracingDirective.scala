@@ -95,7 +95,7 @@ object TracingDirective extends TracingDirective {
 }
 
 class ConfigurableTracingDirective(config: Config) extends TracingDirective {
-	override protected def tracing: Tracing = new ConfigurableTracing(config)
-	override protected def propagation: Propagation[HttpHeader, HttpRequest] =
-		AkkaB3FormatPropagation
+  override protected def tracing: Tracing = new ConfigurableTracing(config)
+  override protected def propagation: Propagation[HttpHeader, HttpRequest] =
+    AkkaB3FormatPropagation
 }

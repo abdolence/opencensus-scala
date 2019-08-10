@@ -150,11 +150,12 @@ private[scala] trait TracingImpl extends Tracing {
   }
 
   private def buildSpan(builder: SpanBuilder): Span = {
-	config.trace.samplingProbability.map { probabilityValue =>
-		builder.setSampler(Samplers.probabilitySampler(probabilityValue))
-	}.
-		getOrElse(builder).
-		startSpan()
+    config.trace.samplingProbability
+      .map { probabilityValue =>
+        builder.setSampler(Samplers.probabilitySampler(probabilityValue))
+      }
+      .getOrElse(builder)
+      .startSpan()
   }
 }
 
