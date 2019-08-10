@@ -3,7 +3,7 @@ package io.opencensus.scala.akka.http
 import akka.http.scaladsl.model.{HttpHeader, HttpRequest, HttpResponse}
 import akka.stream.scaladsl.{Flow, GraphDSL, Keep, UnzipWith, Zip}
 import akka.stream.{FlowShape, OverflowStrategy}
-import io.opencensus.scala.Tracing
+import io.opencensus.scala.{Config, ConfigurableTracing, Tracing}
 import io.opencensus.scala.akka.http.propagation.AkkaB3FormatPropagation
 import io.opencensus.scala.akka.http.trace.HttpAttributes._
 import io.opencensus.scala.akka.http.utils.EndSpanResponse
@@ -217,6 +217,14 @@ trait TracingClient {
 object TracingClient extends TracingClient {
   import scala.concurrent.ExecutionContext.Implicits.global
   override protected val tracing: Tracing = Tracing
+  override protected val propagation: Propagation[HttpHeader, HttpRequest] =
+    AkkaB3FormatPropagation
+  override implicit protected val ec: ExecutionContext = global
+}
+
+class ConfigurableTracingClient(config: Config) extends TracingClient {
+  import scala.concurrent.ExecutionContext.Implicits.global
+  override protected val tracing: Tracing = new ConfigurableTracing(config)
   override protected val propagation: Propagation[HttpHeader, HttpRequest] =
     AkkaB3FormatPropagation
   override implicit protected val ec: ExecutionContext = global
