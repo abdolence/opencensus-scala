@@ -4,7 +4,7 @@ import akka.http.scaladsl.model.{HttpHeader, HttpRequest}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{Directive0, Directive1, ExceptionHandler}
 import com.typesafe.scalalogging.LazyLogging
-import io.opencensus.scala.Tracing
+import io.opencensus.scala.{Config, ConfigurableTracing, Tracing}
 import io.opencensus.scala.akka.http.propagation.AkkaB3FormatPropagation
 import io.opencensus.scala.akka.http.trace.HttpAttributes._
 import io.opencensus.scala.akka.http.utils.EndSpanResponse
@@ -92,4 +92,10 @@ object TracingDirective extends TracingDirective {
   override protected def tracing: Tracing = Tracing
   override protected def propagation: Propagation[HttpHeader, HttpRequest] =
     AkkaB3FormatPropagation
+}
+
+class ConfigurableTracingDirective(config: Config) extends TracingDirective {
+	override protected def tracing: Tracing = new ConfigurableTracing(config)
+	override protected def propagation: Propagation[HttpHeader, HttpRequest] =
+		AkkaB3FormatPropagation
 }

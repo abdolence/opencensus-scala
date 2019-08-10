@@ -172,3 +172,19 @@ object Tracing extends TracingImpl with LazyLogging {
   if (config.trace.exporters.instana.enabled)
     Instana.init(config.trace.exporters.instana)
 }
+
+class ConfigurableTracing(override val config: Config)
+    extends TracingImpl
+    with LazyLogging {
+  if (config.trace.exporters.stackdriver.enabled)
+    Stackdriver.init(config.trace.exporters.stackdriver)
+
+  if (config.trace.exporters.logging.enabled)
+    Logging.init()
+
+  if (config.trace.exporters.zipkin.enabled)
+    Zipkin.init(config.trace.exporters.zipkin)
+
+  if (config.trace.exporters.instana.enabled)
+    Instana.init(config.trace.exporters.instana)
+}
