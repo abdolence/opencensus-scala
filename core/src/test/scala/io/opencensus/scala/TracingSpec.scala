@@ -17,7 +17,7 @@ class TracingSpec extends AsyncFlatSpec with TracingImpl with Matchers {
           zipkin = ZipkinTraceExporterConfig(enabled = false, "", ""),
           instana = InstanaTraceExporterConfig(enabled = false, "")
         ),
-        samplingProbability = 0.25
+        samplingProbability = Some(0.25)
       )
     )
 

@@ -29,7 +29,7 @@ private[scala] case class TraceExportersConfig(
 )
 
 private[scala] case class TraceConfig(
-    samplingProbability: Double,
+    samplingProbability: Option[Double],
     exporters: TraceExportersConfig
 )
 
